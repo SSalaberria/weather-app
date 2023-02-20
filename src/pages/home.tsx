@@ -40,7 +40,7 @@ function Home() {
   return (
     <>
       <h1 className="text-s font-light">{location.name}</h1>
-      <img className="" src={"/src/assets/sunny.svg"} />
+      <img className="" src={"/weather-icons/sunny.svg"} />
       <ul>
         {weather?.daily.data.map((dayData) => (
           <li key={dayData.time}>
