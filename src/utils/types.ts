@@ -129,3 +129,24 @@ export type WeatherCode =
   | 82
   | 85
   | 86;
+
+export interface Geolocation {
+  city?: string;
+  country?: {
+    code?: string;
+    name?: string;
+  };
+  subdivision?: {
+    code?: string;
+    name?: string;
+  };
+  latitude: number;
+  longitude: number;
+}
+
+export type City = {
+  id: string;
+  name: string;
+  lat: number;
+  lon: number;
+};
