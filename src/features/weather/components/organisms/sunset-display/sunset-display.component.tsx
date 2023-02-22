@@ -15,7 +15,7 @@ interface SunItem {
 function SunItem({ time, label }: SunItem) {
   return (
     <div className="flex flex-col justify-center text-center items-center text-xs">
-      <img alt="label" className="w-8" src="/icons/sun-horizon.svg" />
+      <img alt="label" className="w-8" height="32" src="/icons/sun-horizon.svg" width="32" />
       <p className="pb-1">
         {new Intl.DateTimeFormat("es-AR", {
           hour: "numeric",
