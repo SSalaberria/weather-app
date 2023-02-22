@@ -23,7 +23,7 @@ const api = {
         coord.lat
       }&longitude=${
         coord.lon
-      }&hourly=temperature_2m,precipitation,windspeed_10m&models=best_match&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max&current_weather=true${extraParams}&timezone=auto`;
+      }&hourly=temperature_2m,weathercode,relativehumidity_2m,precipitation,windspeed_10m&models=best_match&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max&current_weather=true${extraParams}&timezone=auto`;
 
       return fetch(fetchUrl)
         .then((res) => res.json() as Promise<RawWeatherData>)
@@ -39,6 +39,7 @@ const api = {
             units: daily_units,
             data: transformData<DailyData>(raw_daily).map((dayData) => ({
               ...dayData,
+              time: dayData.time.replace(/-/g, "/"),
               hourly: hourly.data.filter((hourlyData) => hourlyData.time.includes(dayData.time)),
             })),
           };

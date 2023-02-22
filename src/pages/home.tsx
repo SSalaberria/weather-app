@@ -1,70 +1,84 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useMemo } from "react";
 
-import { LocationContext } from "~/App";
-import { Loading } from "~/components/ui/loading";
-import api from "~/utils/api";
-import { WeatherData } from "~/utils/types";
-import ErrorIcon from "~/assets/error.svg";
-
-const temperatureScale = "metric";
+import { ForecastSummary, useWeather } from "~/features/weather";
+import {
+  CurrentSummaryForecast,
+  HourlyForecastDisplay,
+  SunsetDisplay,
+  WeatherDaySummary,
+} from "~/features/weather";
+import { Loading } from "~/components";
+import { LocationContext } from "~/features/location";
 
 function Home() {
   const location = useContext(LocationContext);
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [status, setStatus] = useState<"fetching" | "success" | "error">("fetching");
+  const coords = useMemo(
+    () => ({
+      lat: location.latitude,
+      lon: location.longitude,
+    }),
+    [location],
+  );
+  const { weather, status } = useWeather(coords);
 
-  useEffect(() => {
-    setStatus("fetching");
-    api.weather
-      .fetch({ lon: location.lon, lat: location.lat }, { units: temperatureScale })
-      .then((weather) => {
-        setStatus("success");
-        setWeather(weather);
-      })
-      .catch(() => setStatus("error"));
-  }, [location]);
+  const hourlyForecastData = useMemo(() => {
+    if (!weather) {
+      return [];
+    }
+
+    const currentDate = new Date();
+    const currentHourIndex = weather.hourly.data.findIndex((hourlyData) => {
+      const hourlyDataDate = new Date(hourlyData.time);
+
+      return hourlyDataDate.getHours() === currentDate.getHours();
+    });
+
+    return weather.hourly.data.slice(currentHourIndex, currentHourIndex + 24);
+  }, [weather]);
 
   if (status === "fetching") {
     return <Loading />;
   }
 
-  if (status === "error") {
+  if (status === "error" || !weather) {
     return (
       <>
-        <img src={ErrorIcon} />
-        <p>Error retrieving weather data</p>
+        <img className="w-80" src={"/error.svg"} />
+        <p className="text-xl text-center">Error retrieving weather data</p>
       </>
     );
   }
 
   return (
-    <>
-      <h1 className="text-s font-light">{location.name}</h1>
-      <img className="" src={"/weather-icons/sunny.svg"} />
-      <ul>
-        {weather?.daily.data.map((dayData) => (
-          <li key={dayData.time}>
-            {new Intl.DateTimeFormat("es-AR").format(new Date(dayData.time))} - Current:{" "}
-            {weather.current_weather.temperature}
-            {weather.daily.units.temperature_2m_max} - Min:{" "}
-            {dayData.temperature_2m_min + weather.daily.units.temperature_2m_min} - Max:{" "}
-            {dayData.temperature_2m_max + weather.daily.units.temperature_2m_max}
-            <ul>
-              {dayData.hourly.map((hourData) => (
-                <li key={hourData.time}>
-                  {new Intl.DateTimeFormat("es-AR", {
-                    hour: "numeric",
-                    minute: "numeric",
-                  }).format(new Date(hourData.time))}
-                  , Temp:{" "}
-                  {Math.round(hourData.temperature_2m) + weather.hourly.units.temperature_2m}
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </>
+    <div className="flex flex-col w-full gap-8">
+      <ForecastSummary
+        currentTemperature={weather?.current_weather.temperature}
+        location={location}
+        tempMax={weather?.daily.data[0].temperature_2m_max}
+        tempMin={weather?.daily.data[0].temperature_2m_min}
+        weatherCode={weather?.current_weather.weathercode}
+      />
+      <CurrentSummaryForecast
+        humidity={hourlyForecastData[0].relativehumidity_2m}
+        precipitation={{
+          value: weather.daily.data[0].precipitation_sum,
+          units: weather.daily.units.precipitation_sum,
+        }}
+        wind={{
+          value: weather.current_weather.windspeed,
+          units: weather.daily.units.windspeed_10m_max,
+        }}
+      />
+      <HourlyForecastDisplay date={weather?.daily.data[0].time} hourlyData={hourlyForecastData} />
+
+      <SunsetDisplay
+        nextRise={weather.daily.data[1].sunrise}
+        riseTime={weather.daily.data[0].sunrise}
+        setTime={weather.daily.data[0].sunset}
+      />
+
+      <WeatherDaySummary daysData={weather.daily.data.slice(0, 7)} units={weather.daily.units} />
+    </div>
   );
 }
 

@@ -1,56 +1,16 @@
-import { createContext, useEffect, useState } from "react";
-
 import Home from "~/pages/home";
-import { Loading } from "~/components/ui/loading";
-import api from "~/utils/api";
-import { City } from "~/utils/types";
+import { Loading } from "~/components";
 
-const LOCAL_STORAGE_POSITION_KEY = "local-position";
-
-const DEFAULT_POSITION = {
-  id: "buenos-aires",
-  name: "Buenos Aires",
-  lat: -34.61315,
-  lon: -58.37723,
-};
-
-const getInitialSelectedCityState = () => {
-  const localPosition = localStorage.getItem(LOCAL_STORAGE_POSITION_KEY);
-
-  if (localPosition) {
-    return JSON.parse(localPosition);
-  }
-
-  return DEFAULT_POSITION;
-};
-
-export const LocationContext = createContext<City>(DEFAULT_POSITION);
+import { LocationContext, useLocation } from "./features/location";
 
 function App() {
-  const [loading, setLoading] = useState(() => !localStorage.getItem(LOCAL_STORAGE_POSITION_KEY));
-  const [location, setLocation] = useState<City>(getInitialSelectedCityState);
-
-  useEffect(() => {
-    api.geolocation.fetch().then((geo) => {
-      const localPosition: City = {
-        id: LOCAL_STORAGE_POSITION_KEY,
-        name: geo?.city || "My location",
-        lat: geo.latitude,
-        lon: geo.longitude,
-      };
-
-      localStorage.setItem(LOCAL_STORAGE_POSITION_KEY, JSON.stringify(localPosition));
-
-      setLocation(localPosition);
-
-      setLoading(false);
-    });
-  }, []);
+  const { loading, location } = useLocation();
 
   return (
     <LocationContext.Provider value={location}>
-      <main className="flex h-full justify-center items-center flex-col">
+      <main className="relative flex h-full justify-center items-center pb-80 flex-col bg-gradient-to-b from-[#1F1F42] to-[#010C1F]">
         {loading ? <Loading /> : <Home />}
+        <div className="absolute h-1/6 w-full overflow-x-clip top-24 z-[1] bg-gradient-to-b from-[#ffffff09] rounded-t-[50%]" />
       </main>
     </LocationContext.Provider>
   );

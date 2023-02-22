@@ -59,6 +59,8 @@ export interface HourlyData {
   temperature_2m: number;
   precipitation: number;
   windspeed_10m: number;
+  weathercode: WeatherCode;
+  relativehumidity_2m: number;
 }
 
 export interface RawDaily {
@@ -77,6 +79,8 @@ export interface RawHourly {
   temperature_2m: number[];
   precipitation: number[];
   windspeed_10m: number[];
+  weathercode: WeatherCode[];
+  relativehumidity_2m: number[];
 }
 
 export interface HourlyUnits {
@@ -88,7 +92,7 @@ export interface HourlyUnits {
 
 export interface DailyUnits {
   time: string;
-  weathercode: string;
+  weathercode: WeatherCode;
   temperature_2m_max: TemperatureUnit;
   temperature_2m_min: TemperatureUnit;
   sunrise: string;
@@ -144,9 +148,6 @@ export interface Geolocation {
   longitude: number;
 }
 
-export type City = {
+export interface City extends Geolocation {
   id: string;
-  name: string;
-  lat: number;
-  lon: number;
-};
+}

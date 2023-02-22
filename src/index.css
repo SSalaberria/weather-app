@@ -18,8 +18,36 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@layer components {
+  .section-container {
+    @apply bg-[#ffffff10] rounded-3xl;
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #8f8fa0;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #4b4b67;
+    border-radius: 100vh;
+    border: 1px solid #4b4b67;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #62627a;
+  }
+}
+
 #root {
-  margin: 0 auto;
+  width: 100%;
 }
 
 * {
@@ -42,6 +70,7 @@ img {
 
 main {
   padding: 1rem;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: light) {
@@ -50,4 +79,3 @@ main {
     background-color: #ffffff;
   }
 }
-
