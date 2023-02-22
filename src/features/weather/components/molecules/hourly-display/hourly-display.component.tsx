@@ -20,7 +20,13 @@ export function HourlyDisplay({ time, weatherCode, temperature, units }: HourlyD
             }).format(new Date(time))}
       </p>
 
-      <img className="w-6" src={weatherCodeMapping[weatherCode].icon} />
+      <img
+        alt={weatherCodeMapping[weatherCode].description}
+        className="w-6"
+        height="auto"
+        src={weatherCodeMapping[weatherCode].icon}
+        width="24px"
+      />
 
       <p className=" text-l font-medium">
         {Math.round(temperature)}

@@ -37,7 +37,13 @@ function TDailyDisplay({
           })}
         </p>
       </div>
-      <img className="w-11" src={weatherCodeMapping[weatherCode || "default"].icon} />
+      <img
+        alt={weatherCodeMapping[weatherCode || "default"].description}
+        className="w-11"
+        height="auto"
+        src={weatherCodeMapping[weatherCode || "default"].icon}
+        width="44px"
+      />
       <p className="text-m font-bold">
         {Math.round(tempMin)}°/{Math.round(tempMax)}°
       </p>

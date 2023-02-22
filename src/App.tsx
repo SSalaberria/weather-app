@@ -8,6 +8,7 @@ function App() {
 
   return (
     <LocationContext.Provider value={location}>
+      <meta content="Weather App for all your needs" name="description" />
       <main className="relative flex h-full justify-center items-center pb-80 flex-col bg-gradient-to-b from-[#1F1F42] to-[#010C1F]">
         {loading ? <Loading /> : <Home />}
         <div className="absolute h-1/6 w-full overflow-x-clip top-24 z-[1] bg-gradient-to-b from-[#ffffff09] rounded-t-[50%]" />
