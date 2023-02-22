@@ -23,7 +23,7 @@ export function HourlyDisplay({ time, weatherCode, temperature, units }: HourlyD
       <img
         alt={weatherCodeMapping[weatherCode].description}
         className="w-6"
-        height="auto"
+        height="24"
         src={weatherCodeMapping[weatherCode].icon}
         width="24"
       />

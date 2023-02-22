@@ -21,7 +21,7 @@ export function ForecastSummary({
       <img
         alt={weatherCode.toString()}
         className="w-40 z-10"
-        height={"auto"}
+        height="160"
         src={weatherCodeMapping[weatherCode].icon}
         width="160"
       />

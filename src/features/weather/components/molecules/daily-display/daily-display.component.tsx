@@ -40,7 +40,7 @@ function TDailyDisplay({
       <img
         alt={weatherCodeMapping[weatherCode || "default"].description}
         className="w-11"
-        height="auto"
+        height="44"
         src={weatherCodeMapping[weatherCode || "default"].icon}
         width="44"
       />
