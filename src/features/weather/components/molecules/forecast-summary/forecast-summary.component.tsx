@@ -23,7 +23,7 @@ export function ForecastSummary({
         className="w-40 z-10"
         height={"auto"}
         src={weatherCodeMapping[weatherCode].icon}
-        width="160px"
+        width="160"
       />
       <p className="text-[2rem] leading-3 font-bold">
         {weatherCodeMapping[weatherCode].description}

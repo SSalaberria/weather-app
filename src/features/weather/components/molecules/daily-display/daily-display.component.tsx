@@ -42,7 +42,7 @@ function TDailyDisplay({
         className="w-11"
         height="auto"
         src={weatherCodeMapping[weatherCode || "default"].icon}
-        width="44px"
+        width="44"
       />
       <p className="text-m font-bold">
         {Math.round(tempMin)}°/{Math.round(tempMax)}°
