@@ -18,7 +18,7 @@ interface ForecastItem {
 function ForecastItem({ icon, value }: ForecastItem) {
   return (
     <div className="flex gap-1 justify-center">
-      <img alt={value} src={icon} />
+      <img alt={value} height="24" src={icon} width="24" />
       <p className="text-m">{value}</p>
     </div>
   );
