@@ -17,7 +17,7 @@ function Home() {
       lat: location.latitude,
       lon: location.longitude,
     }),
-    [location],
+    [location.latitude, location.longitude],
   );
   const { weather, status } = useWeather(coords);
 
