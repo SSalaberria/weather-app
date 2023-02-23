@@ -35,6 +35,13 @@ export default defineConfig({
           },
         ],
       },
+      devOptions: {
+        enabled: true,
+        /* other options */
+      },
+      workbox: {
+        importScripts: ["/sw-fetch.js"],
+      },
     }),
   ],
   resolve: {
