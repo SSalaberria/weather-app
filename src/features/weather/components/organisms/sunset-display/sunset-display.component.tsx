@@ -60,13 +60,13 @@ export function SunsetDisplay({ riseTime, setTime, nextRise }: SunsetDisplayProp
           }}
         />
         <div className="flex w-full justify-between absolute top-1/2">
-          <div className="-ml-2">
+          <div className="">
             <SunItem
               label={isNightTime ? "Sun set" : "Sun rise"}
               time={isNightTime ? setTime : riseTime}
             />
           </div>
-          <div className="-mr-2">
+          <div className="">
             <SunItem
               label={isNightTime ? "Sun rise" : "Sun set"}
               time={isNightTime ? nextRise : setTime}
