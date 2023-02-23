@@ -10,6 +10,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      includeAssets: ["fonts/*.ttf", "images/*.png", "icons/*.svg", "weather-icons/*.svg", "*.svg"],
       manifest: {
         name: "Weathery - for all your weather needs",
         short_name: "Weathery",
