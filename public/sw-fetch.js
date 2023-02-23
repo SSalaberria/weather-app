@@ -15,10 +15,10 @@ const fetchFromNetwork = async (request) => {
 };
 
 const cacheFirst = async (request) => {
-  console.log(request.url);
+  // console.log(request.url);
 
   if (navigator.onLine && cacheableApiCalls.find((url) => request.url.includes(url))) {
-    console.log("Fetching api call while online");
+    // console.log("Fetching api call while online");
     fetchFromNetwork(request);
   }
 
