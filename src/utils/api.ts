@@ -10,6 +10,9 @@ import {
   WeatherData,
 } from "./types";
 
+let cache: { [x: string]: { data: WeatherData; timestamp: number } } = {};
+const CACHE_TIME = 60 * 1000;
+
 const api = {
   weather: {
     fetch: async (coord: Coord, options?: { units?: Units }): Promise<WeatherData> => {
@@ -24,6 +27,12 @@ const api = {
       }&longitude=${
         coord.lon
       }&hourly=temperature_2m,weathercode,relativehumidity_2m,precipitation,windspeed_10m&models=best_match&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max&current_weather=true${extraParams}&timezone=auto`;
+
+      const cachedData = cache[fetchUrl];
+
+      if (cachedData && new Date().getTime() - cachedData.timestamp <= CACHE_TIME) {
+        return cachedData.data;
+      }
 
       return fetch(fetchUrl)
         .then((res) => res.json() as Promise<RawWeatherData>)
@@ -44,7 +53,11 @@ const api = {
             })),
           };
 
-          return { ...rest, daily, hourly };
+          const transformedData = { ...rest, daily, hourly };
+
+          cache[fetchUrl] = { data: transformedData, timestamp: new Date().getTime() };
+
+          return transformedData;
         });
     },
   },

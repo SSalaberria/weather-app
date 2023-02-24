@@ -58,6 +58,7 @@ function Home() {
         tempMin={weather?.daily.data[0].temperature_2m_min}
         weatherCode={weather?.current_weather.weathercode}
       />
+      gfsdgssfsfsfsffssfsfsfsfasfasfasfasfasfasf
       <CurrentSummaryForecast
         humidity={hourlyForecastData[0].relativehumidity_2m}
         precipitation={{
@@ -70,13 +71,11 @@ function Home() {
         }}
       />
       <HourlyForecastDisplay date={weather?.daily.data[0].time} hourlyData={hourlyForecastData} />
-
       <SunsetDisplay
         nextRise={weather.daily.data[1].sunrise}
         riseTime={weather.daily.data[0].sunrise}
         setTime={weather.daily.data[0].sunset}
       />
-
       <WeatherDaySummary daysData={weather.daily.data.slice(0, 7)} units={weather.daily.units} />
     </div>
   );
