@@ -7,7 +7,7 @@ import {
   SunsetDisplay,
   WeatherDaySummary,
 } from "~/features/weather";
-import { Loading } from "~/components";
+import { Loading, RouteContext } from "~/components";
 import { LocationContext } from "~/features/location";
 
 function Home() {
@@ -20,6 +20,7 @@ function Home() {
     [location.latitude, location.longitude],
   );
   const { weather, status } = useWeather(coords);
+  const { push, path } = useContext(RouteContext);
 
   const hourlyForecastData = useMemo(() => {
     if (!weather) {
@@ -51,6 +52,8 @@ function Home() {
 
   return (
     <div className="flex flex-col w-full gap-8">
+      <button onClick={() => push(path === "/" ? "/locations" : "/")}>Toggle</button>
+
       <ForecastSummary
         currentTemperature={weather?.current_weather.temperature}
         location={location}
@@ -58,7 +61,6 @@ function Home() {
         tempMin={weather?.daily.data[0].temperature_2m_min}
         weatherCode={weather?.current_weather.weathercode}
       />
-      gfsdgssfsfsfsffssfsfsfsfasfasfasfasfasfasf
       <CurrentSummaryForecast
         humidity={hourlyForecastData[0].relativehumidity_2m}
         precipitation={{
