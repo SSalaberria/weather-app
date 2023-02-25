@@ -38,6 +38,7 @@ module.exports = {
           500: "#37E4AA",
         },
         red: "#FD7778",
+        purple: "#1F1F42",
       },
     },
   },
