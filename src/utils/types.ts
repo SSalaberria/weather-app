@@ -1,3 +1,5 @@
+export type QueryStatus = "fetching" | "success" | "error";
+
 export type Units = "metric" | "imperial";
 
 interface CommonWeatherData {
@@ -21,6 +23,26 @@ export interface RawWeatherData extends CommonWeatherData {
   hourly: RawHourly;
   daily_units: DailyUnits;
   daily: RawDaily;
+}
+
+export interface RawGeolocationData {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  elevation: number;
+  feature_code: string;
+  country_code: string;
+  admin1_id: number;
+  admin2_id: number;
+  timezone: string;
+  population: number;
+  country_id: number;
+  country: string;
+  admin1: string;
+  admin2: string;
+  admin3_id?: number;
+  admin3: string;
 }
 
 export interface WeatherData extends CommonWeatherData {

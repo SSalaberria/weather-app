@@ -1,4 +1,4 @@
-import { weatherCodeMapping } from "~/utils/helpers";
+import { formatTemperature, weatherCodeMapping } from "~/utils/helpers";
 import { City, WeatherCode } from "~/utils/types";
 
 interface ForecastSummaryProps {
@@ -28,13 +28,13 @@ export function ForecastSummary({
       <p className="text-[2rem] leading-3 font-bold">
         {weatherCodeMapping[weatherCode].description}
       </p>
-      <p className="text-[4rem] font-bold pl-4">{Math.round(currentTemperature)}°</p>
+      <p className="text-[4rem] font-bold pl-4">{formatTemperature(currentTemperature)}</p>
       <p className="text-l font-medium w-40 pb-2">
         {location.city}, {location.subdivision?.name}, {location.country?.code}
       </p>
       <div className="flex text-m font-medium gap-4">
-        <p>L: {Math.round(tempMin)}°</p>
-        <p>H: {Math.round(tempMax)}°</p>
+        <p>L: {formatTemperature(tempMin)}</p>
+        <p>H: {formatTemperature(tempMax)}</p>
       </div>
     </div>
   );

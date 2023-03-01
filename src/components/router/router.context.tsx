@@ -5,5 +5,7 @@ import { getCurrentPath } from "./use-router";
 
 export const RouteContext = createContext({
   path: getCurrentPath(),
-  push: (_path: Path) => {},
+  push: (_path: Path) => {
+    console.log("Shouldnt come here");
+  },
 });

@@ -45,7 +45,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 rounded-t-xl inset-x-0 bg-purple flex justify-between text-s uppercase transition-all duration-700"
+      className="fixed z-10 bottom-0 rounded-t-xl inset-x-0 bg-purple flex justify-between text-s uppercase transition-all duration-700"
       style={{
         transform: scrollDir === "up" ? "translate(0, 0px)" : "translate(0, 150px)",
       }}

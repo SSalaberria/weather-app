@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { DailyDisplay, SummaryItem } from "~/features/weather";
+import { formatTemperature } from "~/utils/helpers";
 import { DailyData, DailyUnits } from "~/utils/types";
 
 interface WeatherDaySummaryProps {
@@ -16,9 +17,9 @@ export function WeatherDaySummary({ daysData, units }: WeatherDaySummaryProps) {
       {
         description: "Min/Max",
         icon: "/icons/thermometer.svg",
-        value: `${Math.round(selected.temperature_2m_min)}°/${Math.round(
+        value: `${formatTemperature(selected.temperature_2m_min)}/${formatTemperature(
           selected.temperature_2m_max,
-        )}°`,
+        )}`,
       },
       {
         description: "Precipitation",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import api from "~/utils/api";
-import { Coord, Units, WeatherData } from "~/utils/types";
+import { Coord, QueryStatus, Units, WeatherData } from "~/utils/types";
 
 interface Options {
   units?: Units;
@@ -9,7 +9,7 @@ interface Options {
 
 export function useWeather(coords: Coord, options?: Options) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [status, setStatus] = useState<"fetching" | "success" | "error">("fetching");
+  const [status, setStatus] = useState<QueryStatus>("fetching");
 
   useEffect(() => {
     setStatus("fetching");

@@ -17,7 +17,7 @@ A few highlights if you're still interested:
 
 # Running it locally
 
-Both ViteJS and netlify CLI are needed to run locally, the former used as app bootstrap and the latter to make netlify functions (used for inverse geolocation features) work.
+Both ViteJS and netlify CLI are needed to run locally, the former used as app bootstrap and the latter to make netlify functions (used for reverse geocoding features) work.
 Once that's configured and the env variables are set, it should run with:
 ```sh
 npm install

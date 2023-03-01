@@ -1,47 +1,61 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import api from "~/utils/api";
-import { DEFAULT_POSITION } from "~/utils/helpers";
+import { DEFAULT_LOCATION } from "~/utils/helpers";
 import { City } from "~/utils/types";
 
-const LOCAL_STORAGE_POSITION_KEY = "local-position";
+const LOCAL_STORAGE_DEFAULT_LOCATION_KEY = "default-location";
+const LOCAL_STORAGE_LOCATIONS_KEY = "saved-locations";
 
-const getInitialSelectedCityState = () => {
-  const localPosition = localStorage.getItem(LOCAL_STORAGE_POSITION_KEY);
+const getInitialState = (key: string) => {
+  const state = localStorage.getItem(key);
 
-  if (localPosition) {
-    return JSON.parse(localPosition);
+  if (state) {
+    return JSON.parse(state);
   }
 
-  return DEFAULT_POSITION;
+  return null;
 };
 
 export function useLocation() {
-  const [loading, setLoading] = useState(() => !localStorage.getItem(LOCAL_STORAGE_POSITION_KEY));
-  const [location, setLocation] = useState<City>(getInitialSelectedCityState);
+  const [loading, setLoading] = useState(
+    () => !localStorage.getItem(LOCAL_STORAGE_DEFAULT_LOCATION_KEY),
+  );
+  const [location, setLocation] = useState<City>(() =>
+    getInitialState(LOCAL_STORAGE_DEFAULT_LOCATION_KEY),
+  );
+  const [savedLocations, setSavedLocations] = useState<City[]>(() =>
+    getInitialState(LOCAL_STORAGE_LOCATIONS_KEY),
+  );
+
+  const setDefaultLocation = (city: City) => {
+    localStorage.setItem(LOCAL_STORAGE_DEFAULT_LOCATION_KEY, JSON.stringify(city));
+    setLocation(city);
+    saveLocation(city);
+  };
+
+  const saveLocation = (city: City) => {
+    const locations = localStorage.getItem(LOCAL_STORAGE_LOCATIONS_KEY);
+    let newLocations: City[] = locations ? JSON.parse(locations) : [];
+
+    if (!newLocations.find((loc) => loc.id === city.id)) {
+      newLocations = [city, ...newLocations];
+      localStorage.setItem(LOCAL_STORAGE_LOCATIONS_KEY, JSON.stringify(newLocations));
+      setSavedLocations(newLocations);
+    }
+  };
 
   useEffect(() => {
-    api.geolocation
-      .fetch()
-      .then((geo) => {
-        const localPosition: City = {
-          id: LOCAL_STORAGE_POSITION_KEY,
-          city: geo?.city || "My location",
-          latitude: geo.latitude,
-          longitude: geo.longitude,
-          subdivision: geo.subdivision,
-          country: geo.country,
-        };
+    if (!location) {
+      api.reverseGeocoding
+        .fetch()
+        .then((city) => setDefaultLocation(city))
+        .catch(() => {
+          setLocation(DEFAULT_LOCATION);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [location]);
 
-        localStorage.setItem(LOCAL_STORAGE_POSITION_KEY, JSON.stringify(localPosition));
-
-        setLocation(localPosition);
-      })
-      .catch(() => {
-        setLocation(DEFAULT_POSITION);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  return { loading, location };
+  return { loading, location, savedLocations, setDefaultLocation };
 }

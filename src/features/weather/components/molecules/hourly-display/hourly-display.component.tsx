@@ -1,11 +1,11 @@
-import { weatherCodeMapping } from "~/utils/helpers";
-import { WeatherCode, TemperatureUnit } from "~/utils/types";
+import { formatTemperature, weatherCodeMapping } from "~/utils/helpers";
+import { WeatherCode, Units } from "~/utils/types";
 
 interface HourlyDisplayProps {
   time: string;
   weatherCode: WeatherCode;
   temperature: number;
-  units?: TemperatureUnit;
+  units?: Units;
 }
 
 export function HourlyDisplay({ time, weatherCode, temperature, units }: HourlyDisplayProps) {
@@ -28,10 +28,7 @@ export function HourlyDisplay({ time, weatherCode, temperature, units }: HourlyD
         width="24"
       />
 
-      <p className=" text-l font-medium">
-        {Math.round(temperature)}
-        {units ? units : "°"}
-      </p>
+      <p className=" text-l font-medium">{formatTemperature(temperature, units)}</p>
     </div>
   );
 }

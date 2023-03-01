@@ -20,10 +20,8 @@ export default async (request: Request, context: Context) => {
   //@ts-ignore
 
   return Response.json({
-    geo: {
-      ...context.geo,
-      city: decodeURIComponent(escape(context.geo.city)),
-    },
+    ...context.geo,
+    city: decodeURIComponent(escape(context.geo.city)),
     header: request.headers.get("x-nf-geo"),
   });
 };

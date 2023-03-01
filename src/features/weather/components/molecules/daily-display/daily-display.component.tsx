@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-import { weatherCodeMapping } from "~/utils/helpers";
+import { formatTemperature, weatherCodeMapping } from "~/utils/helpers";
 import { WeatherCode } from "~/utils/types";
 
 interface DailyDisplayProps {
@@ -45,7 +45,7 @@ function TDailyDisplay({
         width="44"
       />
       <p className="text-m font-bold">
-        {Math.round(tempMin)}°/{Math.round(tempMax)}°
+        {formatTemperature(tempMin)}/{formatTemperature(tempMax)}
       </p>
     </div>
   );

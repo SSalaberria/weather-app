@@ -1,14 +1,20 @@
 import { City, Units } from "./types";
 
-export function formatTemperature(n: number, units: Units) {
-  return {
-    standard: `${n} K`,
-    imperial: `${n} °F`,
-    metric: `${n} °C`,
-  }[units];
+export function formatTemperature(n: number, units?: Units) {
+  const roundedTemp = Math.round(n);
+
+  if (!units) return `${roundedTemp}°`;
+
+  return (
+    roundedTemp +
+    {
+      imperial: `°F`,
+      metric: `°C`,
+    }[units]
+  );
 }
 
-export const DEFAULT_POSITION: City = {
+export const DEFAULT_LOCATION: City = {
   id: "buenos-aires",
   city: "Buenos Aires",
   latitude: -34.61315,

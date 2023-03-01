@@ -11,7 +11,7 @@ import { Loading } from "~/components";
 import { LocationContext } from "~/features/location";
 
 function Home() {
-  const location = useContext(LocationContext);
+  const { location } = useContext(LocationContext);
   const coords = useMemo(
     () => ({
       lat: location.latitude,
@@ -50,7 +50,7 @@ function Home() {
   }
 
   return (
-    <div className="flex flex-col w-full gap-8">
+    <div className="page-container">
       <ForecastSummary
         currentTemperature={weather?.current_weather.temperature}
         location={location}
