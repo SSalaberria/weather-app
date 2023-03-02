@@ -8,10 +8,10 @@ import {
   WeatherDaySummary,
 } from "~/features/weather";
 import { Loading } from "~/components";
-import { LocationContext } from "~/features/location";
+import { useLocationContext } from "~/features/location";
 
 function Home() {
-  const { location } = useContext(LocationContext);
+  const { location } = useLocationContext();
   const coords = useMemo(
     () => ({
       lat: location.latitude,

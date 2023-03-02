@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { paths, RouteContext } from "~/components/router";
+import { paths, useRouter } from "~/components/router";
 
 import { Path } from "../router/router.component";
 
 export function BottomNav() {
-  const { push } = useContext(RouteContext);
+  const { push } = useRouter();
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
   useEffect(() => {

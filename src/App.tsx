@@ -1,9 +1,11 @@
-import { BottomNav, RouteContext, Router, useRouter } from "~/components";
+import { BottomNav, RouteContext, Router } from "~/components";
 import { LocationContext, useLocation } from "~/features/location";
+
+import { useRouting } from "./components/router";
 
 function App() {
   const { loading, location, savedLocations, setDefaultLocation } = useLocation();
-  const { path, push } = useRouter();
+  const { path, push } = useRouting();
 
   return (
     <RouteContext.Provider value={{ path, push }}>

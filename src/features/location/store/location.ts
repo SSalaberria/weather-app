@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 import { DEFAULT_LOCATION } from "~/utils/helpers";
 import { City } from "~/utils/types";
@@ -14,3 +14,5 @@ export const LocationContext = createContext<ILocationContext>({
   savedLocations: [],
   setDefaultLocation: () => {},
 });
+
+export const useLocationContext = () => useContext(LocationContext);

@@ -1,5 +1,7 @@
-import { Router, paths } from "./router.component";
+import { Router } from "./router.component";
 import { RouteContext } from "./router.context";
-import { useRouter } from "./use-router";
+import { useRouting } from "./use-router";
+import { useRouter } from "./router.context";
+import { paths } from "./routes.config";
 
-export { Router, useRouter, RouteContext, paths };
+export { Router, useRouter, RouteContext, paths, useRouting };

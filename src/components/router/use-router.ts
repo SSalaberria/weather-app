@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Path, paths } from "./router.component";
+import { Path, paths } from "./routes.config";
 
 export function getCurrentPath() {
   const currentPath = window.location.pathname as Path;
@@ -14,7 +14,7 @@ export function getCurrentPath() {
   }
 }
 
-export function useRouter() {
+export function useRouting() {
   const [path, setPath] = useState<Path>(getCurrentPath);
 
   const push = (path: Path) => {

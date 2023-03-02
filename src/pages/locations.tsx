@@ -1,14 +1,14 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 
-import { Loading, RouteContext } from "~/components";
+import { Loading, useRouter } from "~/components";
 import { SearchBar } from "~/components/search-bar";
-import { LocationCard, LocationContext } from "~/features/location";
+import { LocationCard, useLocationContext } from "~/features/location";
 import { useLocationSearch } from "~/features/location/hooks/use-location-search";
 import { CondensedWeatherCard, useWeather } from "~/features/weather";
 import { LongWeatherCard } from "~/features/weather";
 
 function Locations() {
-  const { location, setDefaultLocation, savedLocations } = useContext(LocationContext);
+  const { location, setDefaultLocation, savedLocations } = useLocationContext();
   const coords = useMemo(
     () => ({
       lat: location.latitude,
@@ -18,7 +18,7 @@ function Locations() {
   );
   const { weather, status } = useWeather(coords);
   const { searchData, setLocationQuery, status: searchStatus } = useLocationSearch();
-  const { push } = useContext(RouteContext);
+  const { push } = useRouter();
 
   if (status === "fetching") {
     return <Loading />;
