@@ -21,6 +21,11 @@ export function withWeather(Component: () => JSX.Element) {
 
   const { weather, status } = useWeather(memoizedParams.coords);
 
+  const handleClearData = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   if (status === "fetching") {
     return <Loading />;
   }
@@ -30,6 +35,9 @@ export function withWeather(Component: () => JSX.Element) {
       <>
         <img className="w-80" src={"/error.svg"} />
         <p className="text-xl text-center">Error retrieving weather data</p>
+        <button className="btn-primary p-2 px-4 mt-4" onClick={handleClearData}>
+          Clear site data
+        </button>
       </>
     );
   }
