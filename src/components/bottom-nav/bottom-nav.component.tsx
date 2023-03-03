@@ -58,7 +58,7 @@ export function BottomNav() {
       }}
     >
       <button
-        className="absolute border px-1 border-gray-600 top-[50%] sm:right-[40%] right-[30%] w-[20%] sm:w-[10%] z-10 capitalize btn-primary min-w-[4rem]"
+        className="absolute text-s lg:text-m border px-1 border-gray-600 top-[50%] sm:right-[40%] right-[30%] w-[20%] sm:w-[10%] z-10 capitalize btn-primary min-w-[4rem]"
         style={{
           WebkitTransform: "translateY(-50%) translateX(-50%)",
         }}
