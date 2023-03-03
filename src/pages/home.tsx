@@ -1,25 +1,17 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 
-import { ForecastSummary, useWeather } from "~/features/weather";
+import { ForecastSummary } from "~/features/weather";
 import {
   CurrentSummaryForecast,
   HourlyForecastDisplay,
   SunsetDisplay,
   WeatherDaySummary,
 } from "~/features/weather";
-import { Loading } from "~/components";
 import { useLocationContext } from "~/features/location";
+import { WeatherData } from "~/utils/types";
 
-function Home() {
+function Home({ weather }: { weather: WeatherData }) {
   const { location } = useLocationContext();
-  const coords = useMemo(
-    () => ({
-      lat: location.latitude,
-      lon: location.longitude,
-    }),
-    [location.latitude, location.longitude],
-  );
-  const { weather, status } = useWeather(coords);
 
   const hourlyForecastData = useMemo(() => {
     if (!weather) {
@@ -35,19 +27,6 @@ function Home() {
 
     return weather.hourly.data.slice(currentHourIndex, currentHourIndex + 24);
   }, [weather]);
-
-  if (status === "fetching") {
-    return <Loading />;
-  }
-
-  if (status === "error" || !weather) {
-    return (
-      <>
-        <img className="w-80" src={"/error.svg"} />
-        <p className="text-xl text-center">Error retrieving weather data</p>
-      </>
-    );
-  }
 
   return (
     <div className="page-container">

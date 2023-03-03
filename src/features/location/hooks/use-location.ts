@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import api from "~/utils/api";
 import { DEFAULT_LOCATION } from "~/utils/helpers";
@@ -6,6 +6,7 @@ import { City } from "~/utils/types";
 
 const LOCAL_STORAGE_DEFAULT_LOCATION_KEY = "default-location";
 const LOCAL_STORAGE_LOCATIONS_KEY = "saved-locations";
+const MAX_SAVED_LOCATIONS = 10;
 
 const getInitialState = (key: string) => {
   const state = localStorage.getItem(key);
@@ -24,14 +25,19 @@ export function useLocation() {
   const [location, setLocation] = useState<City>(() =>
     getInitialState(LOCAL_STORAGE_DEFAULT_LOCATION_KEY),
   );
-  const [savedLocations, setSavedLocations] = useState<City[]>(() =>
-    getInitialState(LOCAL_STORAGE_LOCATIONS_KEY),
+  const [savedLocations, setSavedLocations] = useState<City[]>(
+    () => getInitialState(LOCAL_STORAGE_LOCATIONS_KEY) || [],
   );
 
-  const setDefaultLocation = (city: City) => {
-    localStorage.setItem(LOCAL_STORAGE_DEFAULT_LOCATION_KEY, JSON.stringify(city));
+  const setDefaultLocation = useCallback((city: City) => {
     setLocation(city);
     saveLocation(city);
+  }, []);
+
+  const deleteLocation = (city: City) => {
+    const newLocations = savedLocations.filter((loc) => loc.id !== city.id);
+
+    setSavedLocations(newLocations);
   };
 
   const saveLocation = (city: City) => {
@@ -40,10 +46,18 @@ export function useLocation() {
 
     if (!newLocations.find((loc) => loc.id === city.id)) {
       newLocations = [city, ...newLocations];
-      localStorage.setItem(LOCAL_STORAGE_LOCATIONS_KEY, JSON.stringify(newLocations));
-      setSavedLocations(newLocations);
+
+      setSavedLocations(newLocations.slice(0, MAX_SAVED_LOCATIONS));
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_LOCATIONS_KEY, JSON.stringify(savedLocations));
+  }, [savedLocations]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_DEFAULT_LOCATION_KEY, JSON.stringify(location));
+  }, [location]);
 
   useEffect(() => {
     if (!location) {
@@ -55,7 +69,7 @@ export function useLocation() {
         })
         .finally(() => setLoading(false));
     }
-  }, [location]);
+  }, [location, setDefaultLocation]);
 
-  return { loading, location, savedLocations, setDefaultLocation };
+  return { loading, location, savedLocations, setDefaultLocation, deleteLocation };
 }

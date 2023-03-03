@@ -1,6 +1,8 @@
-import { City, Units } from "./types";
+import { City, UnitsSystem } from "./types";
 
-export function formatTemperature(n: number, units?: Units) {
+export function formatTemperature(n?: number, units?: UnitsSystem) {
+  if (!n) return `- °`;
+
   const roundedTemp = Math.round(n);
 
   if (!units) return `${roundedTemp}°`;

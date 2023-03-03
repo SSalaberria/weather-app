@@ -6,32 +6,51 @@ import { LocationCard, useLocationContext } from "~/features/location";
 import { useLocationSearch } from "~/features/location/hooks/use-location-search";
 import { CondensedWeatherCard, useWeather } from "~/features/weather";
 import { LongWeatherCard } from "~/features/weather";
+import { City, WeatherData } from "~/utils/types";
 
-function Locations() {
-  const { location, setDefaultLocation, savedLocations } = useLocationContext();
-  const coords = useMemo(
-    () => ({
-      lat: location.latitude,
-      lon: location.longitude,
-    }),
-    [location.latitude, location.longitude],
+function WeatherCard({
+  location,
+  ...rest
+}: {
+  location: City;
+  onSelect?: (location: City) => void;
+  onDelete?: (location: City) => void;
+  selected?: boolean;
+}) {
+  const { weather, status } = useWeather(
+    useMemo(
+      () => ({
+        lat: location.latitude,
+        lon: location.longitude,
+      }),
+      [location.latitude, location.longitude],
+    ),
   );
-  const { weather, status } = useWeather(coords);
+
+  return (
+    <CondensedWeatherCard
+      key={location.id}
+      currentTemperature={weather?.current_weather.temperature}
+      dailyData={weather?.daily.data[0]}
+      loading={status === "fetching"}
+      location={location}
+      {...rest}
+    />
+  );
+}
+
+function Locations({ weather }: { weather: WeatherData }) {
+  const { location, setDefaultLocation, savedLocations, deleteLocation } = useLocationContext();
+
   const { searchData, setLocationQuery, status: searchStatus } = useLocationSearch();
   const { push } = useRouter();
 
-  if (status === "fetching") {
-    return <Loading />;
-  }
+  const handleChangeLocation = (location: City) => {
+    setDefaultLocation(location);
+    push("/");
+  };
 
-  if (status === "error" || !weather) {
-    return (
-      <>
-        <img className="w-80" src={"/error.svg"} />
-        <p className="text-xl text-center">Error retrieving weather data</p>
-      </>
-    );
-  }
+  const handleDeleteLocation = (location: City) => deleteLocation(location);
 
   return (
     <div className="page-container z-10">
@@ -51,14 +70,7 @@ function Locations() {
           }}
         >
           {searchData.map((location) => (
-            <LocationCard
-              key={location.id}
-              location={location}
-              onSelect={(location) => {
-                setDefaultLocation(location);
-                push("/");
-              }}
-            />
+            <LocationCard key={location.id} location={location} onSelect={handleChangeLocation} />
           ))}
           {searchData.length === 0 && "No results found."}
         </div>
@@ -81,12 +93,12 @@ function Locations() {
             }}
           >
             {savedLocations?.map((city) => (
-              <CondensedWeatherCard
+              <WeatherCard
                 key={city.id}
-                currentTemperature={weather.current_weather.temperature}
-                dailyData={weather.daily.data[0]}
                 location={city}
-                time={weather.daily.data[0].time}
+                selected={city.id === location.id}
+                onDelete={handleDeleteLocation}
+                onSelect={handleChangeLocation}
               />
             ))}
           </div>

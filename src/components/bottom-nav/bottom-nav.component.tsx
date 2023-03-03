@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { paths, useRouter } from "~/components/router";
+import { useUnitsSystemContext } from "~/features/weather/store";
 
-import { Path } from "../router/router.component";
+import { Path } from "../router/routes.config";
 
 export function BottomNav() {
   const { push } = useRouter();
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
+  const { unitsSystem, setUnitsSystem } = useUnitsSystemContext();
 
   useEffect(() => {
     const threshold = 0;
@@ -43,18 +45,32 @@ export function BottomNav() {
     push(path);
   };
 
+  const handleUnitSystemChange = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setUnitsSystem(unitsSystem === "imperial" ? "metric" : "imperial");
+  };
+
   return (
     <nav
-      className="fixed z-10 bottom-0 rounded-t-xl inset-x-0 bg-purple flex justify-between text-s uppercase transition-all duration-700"
+      className="fixed z-10 bottom-0 rounded-t-3xl inset-x-0 bg-purple flex justify-between text-s uppercase transition-all duration-1000"
       style={{
         transform: scrollDir === "up" ? "translate(0, 0px)" : "translate(0, 150px)",
       }}
     >
+      <button
+        className="absolute border border-gray-600 top-[35%] right-[46%] z-10 capitalize btn-primary min-w-[5rem]"
+        onClick={handleUnitSystemChange}
+      >
+        {unitsSystem}
+      </button>
       {Object.entries(paths).map(([key, value]) => (
         <a
           key={key}
-          className="w-full block py-5 px-3 text-center hover:bg-[#353554]  transition duration-300"
+          className="w-full block py-5 px-3 text-center hover:bg-[#353554] first:rounded-tl-3xl last:rounded-tr-3xl transition duration-300"
           href={key}
+          style={{
+            background: window.location.pathname === key ? "#353554" : "",
+          }}
           onClick={(event) => handleNavigate(event, key as Path)}
         >
           <img alt={value.label} className="mx-auto" height="32" src={value.icon} width="32" />

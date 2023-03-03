@@ -26,6 +26,10 @@
   .page-container {
     @apply flex flex-col items-center w-full min-h-full max-w-3xl gap-8;
   }
+
+  .btn-primary {
+    @apply rounded-3xl bg-[#535383] hover:bg-[#64648f] text-m p-2
+  }
 }
 
 @layer utilities {

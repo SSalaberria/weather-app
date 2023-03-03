@@ -33,7 +33,7 @@ export function CurrentSummaryForecast({
     <div className="flex justify-center section-container gap-8 py-2 px-4 mx-auto">
       <ForecastItem
         icon={"/icons/rain.svg"}
-        value={`${precipitation.value}${precipitation.units}`}
+        value={`${precipitation.value} ${precipitation.units}`}
       />
       <ForecastItem icon={"/icons/water-drop.svg"} value={`${humidity}%`} />
       <ForecastItem icon={"/icons/wind.svg"} value={`${Math.round(wind.value)} ${wind.units}`} />

@@ -7,12 +7,14 @@ interface ILocationContext {
   location: City;
   savedLocations: City[];
   setDefaultLocation: (x: City) => void;
+  deleteLocation: (x: City) => void;
 }
 
 export const LocationContext = createContext<ILocationContext>({
   location: DEFAULT_LOCATION,
   savedLocations: [],
   setDefaultLocation: () => {},
+  deleteLocation: () => {},
 });
 
 export const useLocationContext = () => useContext(LocationContext);

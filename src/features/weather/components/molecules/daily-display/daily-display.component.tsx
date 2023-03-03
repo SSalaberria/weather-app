@@ -53,7 +53,8 @@ function TDailyDisplay({
 
 const DailyDisplay = memo(
   TDailyDisplay,
-  (prevProps, nextProps) => prevProps.selected === nextProps.selected,
+  (prevProps, nextProps) =>
+    prevProps.selected === nextProps.selected && prevProps.tempMax === nextProps.tempMax,
 );
 
 export { DailyDisplay };

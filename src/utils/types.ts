@@ -1,6 +1,6 @@
 export type QueryStatus = "fetching" | "success" | "error";
 
-export type Units = "metric" | "imperial";
+export type UnitsSystem = "metric" | "imperial";
 
 interface CommonWeatherData {
   latitude: number;

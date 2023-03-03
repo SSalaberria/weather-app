@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { DailyDisplay, SummaryItem } from "~/features/weather";
 import { formatTemperature } from "~/utils/helpers";
@@ -11,6 +11,10 @@ interface WeatherDaySummaryProps {
 
 export function WeatherDaySummary({ daysData, units }: WeatherDaySummaryProps) {
   const [selected, setSelected] = useState<DailyData>(daysData[0]);
+
+  useEffect(() => {
+    setSelected(daysData[0]);
+  }, [daysData]);
 
   const summaryItems = useMemo(
     () => [
@@ -61,7 +65,7 @@ export function WeatherDaySummary({ daysData, units }: WeatherDaySummaryProps) {
 
   return (
     <div className="flex flex-col justify-center gap-8">
-      <div className="grid grid-flow-col gap-4 sm:gap-8 justify-center w-full overflow-x-auto sm:scrollbar">
+      <div className="flex pl-12 sm:pl-0 max-w-xs sm:max-w-full gap-4 sm:gap-8 justify-center w-full overflow-x-auto sm:scrollbar">
         {daysData.map((day) => (
           <DailyDisplay
             key={day.time}

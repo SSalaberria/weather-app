@@ -1,11 +1,11 @@
 import { formatTemperature, weatherCodeMapping } from "~/utils/helpers";
-import { WeatherCode, Units } from "~/utils/types";
+import { WeatherCode, UnitsSystem } from "~/utils/types";
 
 interface HourlyDisplayProps {
   time: string;
   weatherCode: WeatherCode;
   temperature: number;
-  units?: Units;
+  units?: UnitsSystem;
 }
 
 export function HourlyDisplay({ time, weatherCode, temperature, units }: HourlyDisplayProps) {

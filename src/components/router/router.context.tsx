@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { Path } from "./router.component";
+import { Path } from "./routes.config";
 import { getCurrentPath } from "./use-router";
 
 export const RouteContext = createContext({

@@ -8,16 +8,16 @@ import {
   RawGeolocationData,
   RawHourly,
   RawWeatherData,
-  Units,
+  UnitsSystem,
   WeatherData,
 } from "./types";
 
 let cache: { [x: string]: { data: any; timestamp: number } } = {};
-const CACHE_TIME = 60 * 1000;
+const CACHE_TIME = 120 * 1000;
 
 const api = {
   weather: {
-    fetch: async (coord: Coord, options?: { units?: Units }): Promise<WeatherData> => {
+    fetch: async (coord: Coord, options?: { units?: UnitsSystem }): Promise<WeatherData> => {
       let extraParams = "";
 
       if (options?.units === "imperial") {

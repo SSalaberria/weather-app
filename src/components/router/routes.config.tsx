@@ -1,10 +1,16 @@
+// @ts-nocheck
+import { withWeather } from "~/features/weather/utils/with-weather.component";
 import Home from "~/pages/home";
 import Locations from "~/pages/locations";
 
 export const paths = {
-  "/": { page: () => <Home />, label: "Home", icon: "/icons/home.svg" },
+  "/": {
+    page: () => withWeather(Home),
+    label: "Home",
+    icon: "/icons/home.svg",
+  },
   "/locations": {
-    page: () => <Locations />,
+    page: () => withWeather(Locations),
     label: "Locations",
     icon: "/icons/magnifying-glass.svg",
   },
