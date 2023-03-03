@@ -58,7 +58,7 @@ export function BottomNav() {
       }}
     >
       <button
-        className="absolute border border-gray-600 top-[50%] sm:right-[40%] right-[30%] w-[20%] sm:w-[10%] z-10 capitalize btn-primary min-w-[5rem]"
+        className="absolute border px-1 border-gray-600 top-[50%] sm:right-[40%] right-[30%] w-[20%] sm:w-[10%] z-10 capitalize btn-primary min-w-[4rem]"
         style={{
           WebkitTransform: "translateY(-50%) translateX(-50%)",
         }}
@@ -69,14 +69,14 @@ export function BottomNav() {
       {Object.entries(paths).map(([key, value]) => (
         <a
           key={key}
-          className="w-full block py-5 px-3 text-center hover:bg-[#353554] first:rounded-tl-3xl last:rounded-tr-3xl transition duration-300"
+          className="w-full block py-3 px-3 text-center hover:bg-[#353554] [&:nth-child(2)]:rounded-tl-3xl last:rounded-tr-3xl transition duration-300"
           href={key}
           style={{
             background: window.location.pathname === key ? "#353554" : "",
           }}
           onClick={(event) => handleNavigate(event, key as Path)}
         >
-          <img alt={value.label} className="mx-auto" height="32" src={value.icon} width="32" />
+          <img alt={value.label} className="mx-auto" height="24" src={value.icon} width="24" />
           <p>{value.label}</p>
         </a>
       ))}
