@@ -21,7 +21,7 @@ function App() {
           <main className="relative flex h-full justify-center items-center pb-40 flex-col bg-gradient-to-b from-purple to-[#010C1F]">
             <Router loading={loading} path={path} />
             <BottomNav />
-            <div className="sticky h-1/6 w-full overflow-x-clip top-24 bg-gradient-to-b from-[#ffffff09] rounded-t-[50%]" />
+            <div className="absolute h-[5%] w-full overflow-x-clip top-24 bg-gradient-to-b from-[#ffffff09] rounded-t-[50%]" />
           </main>
         </UnitsSystemContext.Provider>
       </LocationContext.Provider>
