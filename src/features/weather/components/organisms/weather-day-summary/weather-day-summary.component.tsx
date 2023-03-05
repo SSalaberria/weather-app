@@ -65,7 +65,7 @@ export function WeatherDaySummary({ daysData, units }: WeatherDaySummaryProps) {
 
   return (
     <div className="flex flex-col justify-center gap-8">
-      <div className="flex pl-12 sm:pl-0 max-w-xs sm:max-w-full gap-4 sm:gap-8 justify-center w-full overflow-x-auto sm:scrollbar">
+      <div className="flex pl-52 sm:pl-0 max-w-xs sm:max-w-full gap-4 sm:gap-8 justify-center w-full overflow-x-auto scrollbar">
         {daysData.map((day) => (
           <DailyDisplay
             key={day.time}

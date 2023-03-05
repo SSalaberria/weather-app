@@ -27,8 +27,21 @@ function SunItem({ time, label }: SunItem) {
   );
 }
 
+function isBeforeDawn(riseTime: number) {
+  const currentDate = new Date();
+  const dayStart = new Date(new Date().setHours(0, 0, 0, 0));
+
+  return dayStart.getTime() <= currentDate.getTime() && currentDate.getTime() <= riseTime;
+}
+
 export function SunsetDisplay({ riseTime, setTime, nextRise }: SunsetDisplayProps) {
-  const isNightTime = useMemo(() => new Date().getTime() > new Date(setTime).getTime(), [setTime]);
+  const isNightTime = useMemo(() => {
+    const currentDate = new Date();
+
+    const isEvening = currentDate.getTime() > new Date(setTime).getTime();
+
+    return isEvening || isBeforeDawn(new Date(riseTime).getTime());
+  }, [setTime, riseTime]);
 
   const circlePos = useMemo(() => {
     let timeDifference, currentDifference;
@@ -37,7 +50,7 @@ export function SunsetDisplay({ riseTime, setTime, nextRise }: SunsetDisplayProp
     const setDate = new Date(setTime);
 
     if (isNightTime) {
-      const nextRiseDate = new Date(nextRise);
+      const nextRiseDate = isBeforeDawn(riseDate.getTime()) ? riseDate : new Date(nextRise);
 
       timeDifference = nextRiseDate.getTime() - setDate.getTime();
       currentDifference = currentDate.getTime() - setDate.getTime();

@@ -16,7 +16,7 @@ export function HourlyForecastDisplay({ hourlyData, date }: HourlyForecastDispla
         </p>
       </div>
 
-      <div className="grid gap-6 grid-flow-col w-full overflow-x-auto overflow-y-hidden pb-2 sm:scrollbar">
+      <div className="grid gap-6 grid-flow-col w-full overflow-x-auto overflow-y-hidden pb-2 scrollbar">
         {hourlyData.map((hourData) => (
           <HourlyDisplay
             key={hourData.time}

@@ -1,7 +1,7 @@
 import { City, UnitsSystem } from "./types";
 
 export function formatTemperature(n?: number, units?: UnitsSystem) {
-  if (!n) return `- °`;
+  if (!n && n !== 0) return `- °`;
 
   const roundedTemp = Math.round(n);
 
