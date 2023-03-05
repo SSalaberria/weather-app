@@ -12,7 +12,7 @@ A few highlights if you're still interested:
 * Zero js dependencies (other than React, of course ;)) for the funs.
 * Installable and works offline.
 * Pretty clean code with a focus on making the app as performant and lightweight as possible.
-![](docs/lighthouse.png)
+<p align="center">![](docs/lighthouse.png)</p>
 
 
 # Running it locally
